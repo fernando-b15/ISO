@@ -1,0 +1,130 @@
+cpu ram
+procesador red
+tpc-c db
+
+Amazon Aurora development team wins the 2019 ACM SIGMOD Systems Award
+
+rdsmysql.123456789012.us-west-2.rds.amazonaws.com:3306/?Action=connect&DBUser=jane_doe&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=900...
+
+
+pass : AX3y8SxQjN8Hkgvd1s9e
+endpoint: database-aurora.cluster-chenkbuxyugy.us-east-1.rds.amazonaws.com
+
+mysql -h database-aurora-instance-1.chenkbuxyugy.us-east-1.rds.amazonaws.com -P 3306 -u admin -p -e "[GRANT FILE ON *.* TO admin;]"
+
+mysqldump -u admin -pAX3y8SxQjN8Hkgvd1s9e -h database-aurora-instance-1.chenkbuxyugy.us-east-1.rds.amazonaws.com factbook Pais --set-gtid-purged=OFF > factbook_tables.sql
+
+
+create table Factbook (Id int,Año int,Descripcion varchar(500));
+create table Continente (IdContinente int,IdFactbook int,Nombre varchar(100),Color varchar(100));
+create table Pais (IdPais int,IdContinente int,Nombre varchar(100),Presidente varchar(100),Capital varchar(100),Gobierno varchar(100));
+create table Poblacion (IdPais int,Cantidad_Poblacion int,Tasa_Crecimiento float);
+create table Geografia (IdPais int,Area_Total int,Area_Tierra int,Area_Agua int);
+
+drop table Factbook;
+drop table Pais;
+drop table Continente;
+drop table Geografia;
+drop table Poblacion;
+
+
+update pais set Nombre = 'Mexico 2' where IdPais = 3; 
+
+heaps espacios de memoria
+tablespaces disco tiras bit paginas
+
+i/o ope  input/output
+fetct disco a memoria
+write memoria a disco
+
+insert into Pais values (1,1,'MEXICO','Andres Manuel LOPEZ OBRADOR','Mexico City','federal presidential republic');
+insert into Pais values (2,1,'ARGENTINA','Mauricio MACRI','Buenos Aires','presidential republic');
+insert into Pais values (3,1,'COLOMBIA','Ivan DUQUE Marquez','Bogota','presidential republic');
+
+insert into Continente values (1,1,'America','Amarillo');
+insert into Poblacion values  (3,482000000,0.97);
+insert into Geografia values (3,1138910,1038700,100210);
+
+insert into Factbook values (1,2019,'Esta DB esta basada en el libro Factbook de la CIA');
+
+CREATE  INDEX index1 ON Pais(IdContinente) using BTREE;
+CREATE  INDEX index2 ON Pais(IdPais) using BTREE;
+
+ALTER TABLE Pais ADD PRIMARY KEY (IdPais);
+ALTER TABLE Factbook ADD PRIMARY KEY (Id);
+ALTER TABLE Continente ADD PRIMARY KEY (IdContinente);
+
+ALTER TABLE Continente 
+ADD CONSTRAINT continente_factbook 
+FOREIGN KEY (IdFactbook) 
+REFERENCES Factbook (Id); 
+
+ALTER TABLE Poblacion
+ADD CONSTRAINT poblacion_pais
+FOREIGN KEY (IdPais) 
+REFERENCES Pais (IdPais); 
+
+wget "https://github.com/schemaspy/schemaspy/releases/download/v6.1.0/schemaspy-6.1.0.jar" -O schemaSpy_6.1.0.jar
+
+sudo yum install graphviz --with-librsvg --with-pango
+
+
+java -Xms850m -Xmx16348m -jar schemaSpy_6.1.0.jar  -t mysql -dp /usr/share/java/mysql-connector-java.jar -db factbook -s factbook -vizjs -host database-aurora-instance-1.chenkbuxyugy.us-east-1.rds.amazonaws.com -port 3306 -lq -u admin -p AX3y8SxQjN8Hkgvd1s9e -o schemaSpy-Amazon-Aurora
+
+export PATH=/home/dave/work:$PATH
+
+Select * from INFORMATION_SCHEMA.TABLES WHERE table_schema = 'factbook';
+
+
+CLASIFICACIÓN DE SISTEMAS GESTORES DE BASE DE DATOS SEGÚN EL
+TEOREMA DE CA
+
+https://pruebacorreoescuelaingeduco.sharepoint.com/sites/SGDB/SitePages/Seguridad-Amazon-Aurora.aspx
+
+CREATE USER 'fernando' IDENTIFIED BY 'admin';
+
+grant all privileges on factbook.* to 'fernando';
+
+SHOW GRANTS FOR 'fernando';
+
+grant all privileges on *.* to 'fernando' with grant option;
+
+create view vista1 as select * from Pais where IdPais=3;
+
+create role 'developer';
+CREATE RESOURCE GROUP developer TYPE = USER;
+
+
+
+
+Select * from INFORMATION_SCHEMA.TABLES WHERE table_schema = 'factbook';
+Select * from INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'Pais';
+SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE table_name = 'Pais';
+SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE table_name = 'Pais';
+SELECT TABLE_SCHEMA,TABLE_NAME,VIEW_DEFINITION  FROM INFORMATION_SCHEMA.VIEWS WHERE table_schema = 'factbook';
+
+https://manuales.guebs.com/mysql-5.0/information-schema.html#views-table
+
+||
+ lock ic (consulta)
+ lock ix modificacion
+ 
+ % 0 a *
+ _ espacio caracter
+ 
+ select Continente.IdContinente,Continente.Nombre,Pais.IdPais,Pais.Nombre,Pais.Capital from Pais  inner join Continente on Pais.IdContinente = Continente.IdContinente ; 
+ select COUNT(*) as Total from Pais;
+ select * from Pais LIMIT 1;
+ select * from Poblacion p ,Geografia g where p.IdPais = 3 and g.IdPais = 3 ;
+ select * from Poblacion p ,Geografia g where p.IdPais = 3 and g.IdPais = 3 ;
+ select * from Continente c2  where IdContinente = (select IdContinente from Pais p2 where Nombre = 'COLOMBIA');
+ select * from Pais p order by IdPais ;
+EXPLAIN select * from Pais p ;
+
+CREATE USER benchmarksql WITH ENCRYPTED PASSWORD 'benchmarksql';
+CREATE USER 'benchmarksql' IDENTIFIED BY 'benchmarksql';
+CREATE DATABASE benchmarksql;
+GRANT FILE ON benchmarksql TO 'benchmarksql'
+
+GRANT ALL PRIVILEGES ON benchmarksql TO 'benchmarksql';
+
