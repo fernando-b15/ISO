@@ -128,3 +128,18 @@ GRANT FILE ON benchmarksql TO 'benchmarksql'
 
 GRANT ALL PRIVILEGES ON benchmarksql TO 'benchmarksql';
 
+CREATE USER 'benchmarksql'@'172.31.22.16' IDENTIFIED BY 'password';
+CREATE DATABASE benchmarksql;
+GRANT ALL PRIVILEGES ON benchmarksql.* TO 'benchmarksql'@'172.31.22.16';
+GRANT ALL  ON benchmarksql.* TO 'benchmarksql'@'172.31.22.16';
+FLUSH PRIVILEGES;
+
+select * from benchmarksql.customer,benchmarksql.warehouse WHERE w_id = 1 and w_id = c_w_id and c_d_id = 8 and c_id=1428;
+show status where `variable_name` = 'Threads_connected';
+
+show full processlist;
+
+
+
+https://github.com/ECI-SGBD/BenchmarkSQL-4
+
